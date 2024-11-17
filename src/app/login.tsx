@@ -7,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
@@ -26,6 +27,7 @@ const LoginScreen : React.FC = () => {
       await dispatch(loginUser({ username, password })).unwrap();
       router.push("/homefeed");
     } catch (error) {
+      Alert.alert("Wrong Username or password")
       console.error("Login failed:", error);
     }
   };
