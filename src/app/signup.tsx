@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
+import axios from "axios";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
@@ -16,10 +17,22 @@ const SignUpPage = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleSignUp = () => {
-    // Handle sign up action
-  };
+    const baseUrl = "http://localhost:8000"
+  const handleSignUp = async () => {
+    try{
+      const res = axios.post(baseUrl + "/api/register" ,{
+        username : username , 
+        email : email ,
+        first_name : firstName , 
+        last_name : lastName , 
+        password : password , 
+        password2 : password
+      })
+      router.push("/login");
+    }catch(err) {
+      console.log(err)
+    }
+  };  
 
   return (
     <LinearGradient

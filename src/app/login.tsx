@@ -10,14 +10,26 @@ import {
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../state/auth/authSlice";
+import { RootState , AppDispatch } from "../state/store";
+import { useRouter } from "expo-router";
 
-const LoginScreen = () => {
+const LoginScreen : React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch<AppDispatch>() ;
+  const router = useRouter();
 
-  const handleLogin = () => {
-    // Handle login action
+  const handleLogin = async () => {
+    try {
+      await dispatch(loginUser({ username, password })).unwrap();
+      router.push("/homefeed");
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
+
 
   return (
     <LinearGradient
@@ -37,6 +49,7 @@ const LoginScreen = () => {
         <TextInput
           style={styles.input}
           placeholder="Username"
+          autoCapitalize="none"
           value={username}
           onChangeText={setUsername}
           placeholderTextColor="#ccc"
